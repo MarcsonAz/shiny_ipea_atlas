@@ -49,25 +49,47 @@
 
 
 anos_validos <- function(input){
-  #if (is.null(input$ano)) anos else input$ano
   print(input$ano)
   print("-------------")
-  print(anos[5])
-  return(anos[5])
+  print(anos[30])
+  #return(if (is.null(input$ano)) anos else input$ano)
+  return(anos[30])
 }
 
-filter_data_by_group <- function(selected_anos, 
-                                 nivel_federativos = NULL,
-                                 poders = NULL) {
+nivel_federativos_validos <- function(input){
+  #if (is.null(input$ano)) anos else input$ano
+  print(input$nivel_federativo)
+  print("-------------")
+  print(nivel_federativos[1])
+  #return(nivel_federativos[1])
+  return(if (is.null(input$nivel_federativo)) nivel_federativos else input$nivel_federativo)
+}
+
+poders_validos <- function(input){
+  #if (is.null(input$ano)) anos else input$ano
+  print(input$poder)
+  print("-------------")
+  print(poders[2])
+  return(poders[2])
+}
+
+filter_data_by_group <- function(selected_anos, selected_nivel_federativos,selected_poders) {
   
-  an.error.occured <- FALSE
-  tryCatch( { result <- is_character(selected_anos); print(res) }
-            , error = function(e) {an.error.occured <<- TRUE;print(e)})
-  print(an.error.occured)
+  # an.error.occured <- FALSE
+  # tryCatch( { result <- is_character(selected_anos); print(res) }
+  #           , error = function(e) {an.error.occured <<- TRUE;print(e)})
+  # print(an.error.occured)
+  
+  
+  print(c(selected_anos, selected_nivel_federativos,selected_poders))
   
   saida = dados_tabela_agrupados %>%
-    filter(ano == as.numeric(selected_anos) ) %>% 
-    head()
+    filter(ano %in% as.numeric(selected_anos),
+           poder %in% selected_poders,
+           nivel_federativo %in% selected_nivel_federativos) 
+  
+  #%>% 
+   # head()
   
   return(saida)
 

@@ -1,6 +1,5 @@
 library(shiny)
 library(tidyverse)
-library(gt)
 
 source("setup.R")
 source("helpers.R")
@@ -27,8 +26,8 @@ ui <- fluidPage(
       # "Avg Spend",
       # textOutput("average_spend"),
 
-      "Conversion rates by subgroup",
-      gt_output(outputId = "table")
+      "Tabela para explorar dados do Atlas",
+      tableOutput("table")
     )
   )
 )
@@ -39,29 +38,17 @@ ui <- fluidPage(
 # Define the Shiny server function
 server <- function(input, output) {
 
-  # # Filter data according to inputs
-  # selected_industries <-
-  #   reactive(if (is.null(input$industries)) industries else input$industries)
-  # 
-  # selected_propensities <-
-  #   reactive(if (is.null(input$propensities)) propensities else input$propensities)
-  # 
-  # selected_contracts <-
-  #   reactive(if (is.null(input$contracts)) contracts else input$contracts)
-  # 
-  # 
-  
   ## novo
   ## 
   
   selected_anos <-
-    reactive(if (is.null(input$anos)) anos else input$anos)
+    reactive(anos_validos(input)) # funcao especial para testar o erro que esta acontencendo
   
-  selected_nivel_federativo <-
-    reactive(if (is.null(input$nivel_federativos)) nivel_federativos else input$nivel_federativos)
+  selected_nivel_federativos <-
+    reactive(if (is.null(input$nivel_federativo)) nivel_federativos else input$nivel_federativo)
   
-  selected_poder <-
-    reactive(if (is.null(input$poders)) poders else input$poders)
+  selected_poders <-
+    reactive(if (is.null(input$poder)) poders else input$poder)
   
   
   
@@ -76,8 +63,8 @@ server <- function(input, output) {
   selected_data_by_group <-
     reactive({
       filter_data_by_group(selected_anos(),
-                            selected_nivel_federativo(),
-                            selected_poder())
+                            selected_nivel_federativos(),
+                            selected_poders())
     })
 
   # gt_table <- reactive({

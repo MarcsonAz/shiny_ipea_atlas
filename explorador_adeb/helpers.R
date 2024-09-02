@@ -48,20 +48,45 @@
 # }
 
 
+anos_validos <- function(input){
+  #if (is.null(input$ano)) anos else input$ano
+  print(input$ano)
+  print("-------------")
+  print(anos[5])
+  return(anos[5])
+}
 
-filter_data_by_group <- function(anos, poders, nivel_federativos) {
-  dados_tabela |>
-    filter(ano %in% anos,
-           poder %in% poders,
-           nivel_federativo %in% nivel_federativos)
+filter_data_by_group <- function(selected_anos, 
+                                 nivel_federativos = NULL,
+                                 poders = NULL) {
+  
+  an.error.occured <- FALSE
+  tryCatch( { result <- is_character(selected_anos); print(res) }
+            , error = function(e) {an.error.occured <<- TRUE;print(e)})
+  print(an.error.occured)
+  
+  saida = dados_tabela_agrupados %>%
+    filter(ano == as.numeric(selected_anos) ) %>% 
+    head()
+  
+  return(saida)
+
+  #head(mtcars)
+  
+  # dados_tabela |>
+  #   filter(ano %in% anos,
+  #          poder %in% poders,
+  #          nivel_federativo %in% nivel_federativos)
+  # return(dados_tabela)
 }
 
 
 make_table <- function(data_by_group) {
-  filter_data_by_group #|>
-    #select(industry, propensity, contract, evaluation, success_rate) |>
-    #pivot_wider(names_from = evaluation, values_from = success_rate)
+  #head(mtcars)
+  data_by_group
 }
+
+
 
 # plot_conversions_by_group <- function(data_by_group){
 #   data_by_group |>

@@ -1,6 +1,6 @@
 # setup.R
 
-# # Read and prepare data
+# Read and prepare data
 # users <-
 #   read_csv("data/users.csv") |>
 #   mutate(evaluation = factor(evaluation, levels = c("None", "A", "B")),
@@ -53,27 +53,29 @@
 ## NOVO
 
 pak::pak(c('readr','dplyr','tidyr'))
-dados_tabela <- read_csv2('./data/dados_final.csv')
+dados_tabela <- read_csv2('./data/dados_final.csv')  #('./explorador_adeb/data/dados_final.csv')
 
+dados_tabela_agrupados <- dados_tabela %>% 
+  mutate(nivel_federativo = factor(nivel_federativo, levels=c("Federal","Estadual","Municipal")), 
+         poder = factor(poder, levels = c("Executivo","Legislativo","Judiciário" )))
 
-anos <- 1985:2021
+anos <- as.character(1985:2021)
 nivel_federativos <- c("Federal","Estadual","Municipal")
 poders <- c("Executivo","Legislativo","Judiciário")
 
 
-sidebar_content <-
-  list(
-    selectInput("anos",
+sidebar_content <- list(
+    selectInput("ano",
                 "Selecionar anos",
                 choices = anos,
                 selected = "",
                 multiple  = TRUE),
-    selectInput("nivel_federativos",
+    selectInput("nivel_federativo",
                 "Selecionar Nível Federativo",
                 choices = nivel_federativos,
                 selected = "",
                 multiple  = TRUE),
-    selectInput("poders",
+    selectInput("poder",
                 "Selecionar Poder",
                 choices = poders,
                 selected = "",
